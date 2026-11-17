@@ -26,13 +26,15 @@ Open your browser to: **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
 ### 1.2 Verify the Test Suite
 
-NeverInvent includes 69 comprehensive tests (adversarial security audits, unit tests, and integration pipelines):
+NeverInvent includes 74 comprehensive tests (adversarial security audits, unit tests, audit integrity tests, Dataset B evaluation pipeline, and integration pipelines):
 
 ```bash
-# Run the fast unit and adversarial audit suite (~3 seconds)
-pytest tests/adversarial/ tests/unit/test_claims.py tests/unit/test_verification.py tests/unit/test_matching.py -v
+# Run the fast unit and adversarial audit suite (~5 seconds, no model downloads)
+pytest tests/adversarial/ tests/unit/test_audit_integrity.py tests/unit/test_matching.py \
+       tests/unit/test_claims.py tests/unit/test_verification.py tests/unit/test_dataset_b.py \
+       tests/unit/test_persistence.py -v
 
-# Run the complete test suite (~75 seconds, includes dense BGE-small embeddings)
+# Run the complete test suite (~90 seconds, includes dense BGE-small embeddings)
 pytest tests/ -v
 ```
 
@@ -235,9 +237,10 @@ curl -X POST "http://127.0.0.1:8000/api/approve/decision" \
 
 ### Scenario 5: Tamper-Evident Audit Trail Inspection
 
-**Goal:** Inspect the durable audit log to confirm every approval and rejection is recorded with full provenance, timestamps, and decision states.
+**Goal:** Inspect the durable audit log to confirm every approval and rejection is recorded with full provenance, timestamps, decision states, and cryptographic hash-chain integrity.
 
 ```bash
+# Retrieve all audit records with chain validity status
 curl -X GET "http://127.0.0.1:8000/api/approve/audits"
 ```
 
@@ -251,7 +254,9 @@ curl -X GET "http://127.0.0.1:8000/api/approve/audits"
     "decision": "manually_edited_approved",
     "final_text": "Optimized transformer inference latency by 18% across 4 A100 GPUs.",
     "notes": null,
-    "created_at": "2026-11-18T02:10:00Z"
+    "created_at": "2026-11-18T02:10:00Z",
+    "chain_valid": true,
+    "chain_error": null
   },
   {
     "audit_id": "audit_193b...",
@@ -259,10 +264,37 @@ curl -X GET "http://127.0.0.1:8000/api/approve/audits"
     "candidate_id": "cand_benchmark_alice",
     "decision": "rejected",
     "final_text": "Reduced inference latency by 40% using TensorRT.",
-    "notes": "Rejected: candidate achieved 18% latency reduction, not 40%."
+    "notes": "Rejected: candidate achieved 18% latency reduction, not 40%.",
+    "chain_valid": true,
+    "chain_error": null
   }
 ]
 ```
+
+```bash
+# Explicitly verify the full SHA-256 hash chain integrity
+curl -X GET "http://127.0.0.1:8000/api/approve/verify-chain"
+```
+
+**Expected JSON Response (tamper-free chain):**
+```json
+{
+  "chain_valid": true,
+  "record_count": 2,
+  "chain_error": null
+}
+```
+
+**If tampering is detected**, the response includes:
+```json
+{
+  "chain_valid": false,
+  "record_count": 2,
+  "chain_error": "Hash mismatch at sequence 1: expected abc123... got xyz789..."
+}
+```
+
+> **Limitation:** The SHA-256 hash chain detects payload tampering, record deletion, and reordering. It does not prevent full-chain rewriting by an attacker with direct database write access — it makes such manipulation detectable during the next verification call.
 
 ---
 
