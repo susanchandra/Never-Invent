@@ -5,6 +5,8 @@ persistence/models.py — SQLAlchemy ORM models for candidate profiles, jobs, pr
 from __future__ import annotations
 
 import datetime
+import hashlib
+import json
 from typing import Optional
 
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text
@@ -64,6 +66,7 @@ class ApprovalAuditRecord(Base):
     __tablename__ = "approval_audits"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    sequence_number: Mapped[int] = mapped_column(Integer, unique=True, index=True)
     proposal_id: Mapped[str] = mapped_column(String(64), index=True)
     decision: Mapped[str] = mapped_column(String(64))  # APPROVED, REJECTED, MANUALLY_EDITED_APPROVED
     final_text: Mapped[str] = mapped_column(Text)
@@ -71,3 +74,33 @@ class ApprovalAuditRecord(Base):
     timestamp: Mapped[datetime.datetime] = mapped_column(
         DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc)
     )
+    previous_hash: Mapped[str] = mapped_column(String(64))
+    current_hash: Mapped[str] = mapped_column(String(64))
+
+    @staticmethod
+    def canonical_payload(
+        sequence_number: int,
+        proposal_id: str,
+        decision: str,
+        final_text: str,
+        decision_notes: Optional[str],
+        timestamp_iso: str,
+        previous_hash: str,
+    ) -> str:
+        """Deterministic canonical JSON string for SHA-256 hash calculation."""
+        # Ensure timestamp is canonical UTC Zulu format if passed as datetime
+        payload = {
+            "sequence_number": sequence_number,
+            "proposal_id": proposal_id,
+            "decision": decision,
+            "final_text": final_text,
+            "decision_notes": decision_notes or "",
+            "timestamp": timestamp_iso,
+            "previous_hash": previous_hash,
+        }
+        return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+
+    @staticmethod
+    def calculate_hash(payload_str: str) -> str:
+        """Computes hex digest of SHA-256 for canonical payload string."""
+        return hashlib.sha256(payload_str.encode("utf-8")).hexdigest()

@@ -95,4 +95,23 @@ def record_decision(
 def get_audit_trail(session: Session = Depends(get_db_session)):
     repo = Repository(session)
     audits = repo.list_approvals()
-    return {"total": len(audits), "audits": audits}
+    is_valid, error = repo.verify_audit_chain()
+    return {
+        "total": len(audits),
+        "chain_valid": is_valid,
+        "chain_error": error,
+        "audits": audits,
+    }
+
+
+@router.get("/verify-chain")
+def verify_audit_ledger_chain(session: Session = Depends(get_db_session)):
+    """
+    Cryptographic verification endpoint for the append-only audit trail.
+    Walks the SHA-256 hash chain and returns 200 with integrity status or 400 if tampered.
+    """
+    repo = Repository(session)
+    is_valid, error = repo.verify_audit_chain()
+    if not is_valid:
+        raise HTTPException(status_code=400, detail=f"Audit chain verification failed: {error}")
+    return {"status": "valid", "detail": "All audit blocks verified against SHA-256 hash chain."}
