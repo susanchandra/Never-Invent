@@ -1,0 +1,36 @@
+name: NeverInvent CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  fast-tests:
+    name: Fast Unit & Adversarial Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Run fast test suite (Zero model downloads, zero API keys)
+      run: |
+        pytest tests/adversarial/ tests/unit/test_audit_integrity.py tests/unit/test_matching.py tests/unit/test_claims.py tests/unit/test_verification.py tests/unit/test_dataset_b.py tests/unit/test_persistence.py -v
