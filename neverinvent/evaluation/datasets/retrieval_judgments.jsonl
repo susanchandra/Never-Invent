@@ -1,0 +1,50 @@
+{"query_id": "cand_ml_sr", "job_id": "job_001", "relevance": 2, "rationale": "Direct match for Senior ML Engineer with PyTorch, FAISS, search ranking.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_002", "relevance": 1, "rationale": "Partially relevant: Strong ML/PyTorch overlap, but requires NLP research / PhD focus.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_003", "relevance": 1, "rationale": "Partially relevant: Python and backend overlap, but not a backend systems role.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_004", "relevance": 0, "rationale": "Not relevant: DevOps / Terraform / infrastructure focus.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_005", "relevance": 0, "rationale": "Not relevant: React/TypeScript frontend role.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_006", "relevance": 1, "rationale": "Partially relevant: Python data engineering, lacks Spark/Kafka streaming focus.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_007", "relevance": 0, "rationale": "Not relevant: Junior generalist Python role, candidate is senior ML specialist.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_008", "relevance": 1, "rationale": "Partially relevant: PyTorch and ML overlap, but role requires specialized Computer Vision and C++.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_009", "relevance": 1, "rationale": "Partially relevant: Python backend overlap, but requires frontend React expertise.", "annotator": "manual_review"}
+{"query_id": "cand_ml_sr", "job_id": "job_010", "relevance": 0, "rationale": "Not relevant: Cybersecurity and compliance lead.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_001", "relevance": 1, "rationale": "Partially relevant: Strong ML/PyTorch foundation, but focused on ranking rather than NLP research.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_002", "relevance": 2, "rationale": "Direct match: NLP Research Scientist with LLM hallucination and claim verification expertise.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_003", "relevance": 0, "rationale": "Not relevant: Backend APIs, database indexing.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_004", "relevance": 0, "rationale": "Not relevant: Cloud infrastructure / DevOps.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_005", "relevance": 0, "rationale": "Not relevant: Frontend React development.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_006", "relevance": 0, "rationale": "Not relevant: Streaming data engineering.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_007", "relevance": 0, "rationale": "Not relevant: Junior software developer.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_008", "relevance": 0, "rationale": "Not relevant: Computer vision specialization.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_009", "relevance": 0, "rationale": "Not relevant: Full stack web engineering.", "annotator": "manual_review"}
+{"query_id": "cand_nlp_rs", "job_id": "job_010", "relevance": 0, "rationale": "Not relevant: Security engineering.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_001", "relevance": 0, "rationale": "Not relevant: Deep ML/vector search focus.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_002", "relevance": 0, "rationale": "Not relevant: NLP research scientist role.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_003", "relevance": 2, "rationale": "Direct match: High-throughput Python, FastAPI, PostgreSQL, Redis backend APIs.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_004", "relevance": 1, "rationale": "Partially relevant: Backend engineer with Docker/Kubernetes exposure, but not dedicated DevOps.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_005", "relevance": 0, "rationale": "Not relevant: Frontend React focus.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_006", "relevance": 1, "rationale": "Partially relevant: Strong Python and SQL skills, but lacks Spark/Kafka streaming experience.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_007", "relevance": 1, "rationale": "Partially relevant: Matches skills, but role is junior level while candidate is mid/senior.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_008", "relevance": 0, "rationale": "Not relevant: Computer vision / C++ role.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_009", "relevance": 1, "rationale": "Partially relevant: Matches backend Python/FastAPI requirements, lacks frontend React experience.", "annotator": "manual_review"}
+{"query_id": "cand_backend", "job_id": "job_010", "relevance": 0, "rationale": "Not relevant: Security / penetration testing role.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_001", "relevance": 0, "rationale": "Not relevant: ML model training and retrieval.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_002", "relevance": 0, "rationale": "Not relevant: NLP scientific research.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_003", "relevance": 1, "rationale": "Partially relevant: Infrastructure and API deployment overlap, but role is software engineering.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_004", "relevance": 2, "rationale": "Direct match: Multi-region Kubernetes, AWS, Terraform, Docker CI/CD automation.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_005", "relevance": 0, "rationale": "Not relevant: Frontend React development.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_006", "relevance": 0, "rationale": "Not relevant: Streaming data pipeline engineering.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_007", "relevance": 0, "rationale": "Not relevant: Junior software developer.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_008", "relevance": 0, "rationale": "Not relevant: Computer vision algorithms.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_009", "relevance": 0, "rationale": "Not relevant: Full stack web app development.", "annotator": "manual_review"}
+{"query_id": "cand_devops", "job_id": "job_010", "relevance": 1, "rationale": "Partially relevant: Strong AWS and Kubernetes security overlap, but candidate is infrastructure rather than dedicated pen tester.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_001", "relevance": 0, "rationale": "Not relevant: Machine learning / PyTorch role.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_002", "relevance": 0, "rationale": "Not relevant: NLP research scientist role.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_003", "relevance": 0, "rationale": "Not relevant: Backend distributed systems.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_004", "relevance": 0, "rationale": "Not relevant: DevOps / Kubernetes infrastructure.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_005", "relevance": 2, "rationale": "Direct match: React, TypeScript, modern UI and state management for data visualization.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_006", "relevance": 0, "rationale": "Not relevant: Streaming data engineering.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_007", "relevance": 0, "rationale": "Not relevant: Python backend development.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_008", "relevance": 0, "rationale": "Not relevant: Computer vision modeling.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_009", "relevance": 1, "rationale": "Partially relevant: Matches frontend React/JavaScript requirements, lacks backend Python experience.", "annotator": "manual_review"}
+{"query_id": "cand_frontend", "job_id": "job_010", "relevance": 0, "rationale": "Not relevant: Cloud infrastructure security.", "annotator": "manual_review"}

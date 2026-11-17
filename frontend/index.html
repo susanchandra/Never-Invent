@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeverInvent — Evidence-Grounded Resume Verification</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Never<span>Invent</span></div>
+    <div class="tagline">Every claim needs evidence. Every edit needs verification.</div>
+  </div>
+  <nav>
+    <button class="nav-btn active" data-tab="tab-upload">1. Candidate Profile</button>
+    <button class="nav-btn" data-tab="tab-jobs">2. Job Match</button>
+    <button class="nav-btn" data-tab="tab-tailor">3. Propose Edits</button>
+    <button class="nav-btn" data-tab="tab-verify">4. Claim Verification</button>
+    <button class="nav-btn" data-tab="tab-audit">5. Approval Audit</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- TAB 1: Upload & Parsed Profile Preview -->
+  <section id="tab-upload" class="tab-pane active">
+    <div class="card">
+      <h2>1. Resume Ingestion & Profile Provenance</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Upload a PDF/TXT resume or load the benchmark profile (Alice Smith). Ingestion preserves character/page provenance and never fabricates missing facts.
+      </p>
+      
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+        <input type="file" id="resumeFileInput" accept=".pdf,.txt" style="display: inline-block; width: auto; margin: 0;">
+        <button class="btn" id="uploadFileBtn">Upload File</button>
+        <button class="btn btn-secondary" id="loadSampleBtn">Load Benchmark Profile (Alice Smith)</button>
+      </div>
+
+      <div id="profileContainer" style="display: none;">
+        <div class="card" style="background: #090d16;">
+          <h3 id="profileName" style="color: var(--accent-blue); font-size: 1.2rem;"></h3>
+          <p id="profileContact" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;"></p>
+          
+          <div class="grid-2">
+            <div>
+              <h3>Documented Skills Inventory</h3>
+              <div id="profileSkills"></div>
+            </div>
+            <div>
+              <h3>Documented Metrics</h3>
+              <div id="profileMetrics"></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h3>Work Experience History</h3>
+            <div id="profileExperience"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: Relevant Job Results & Requirement Breakdown -->
+  <section id="tab-jobs" class="tab-pane">
+    <div class="card">
+      <h2>2. Grounded Job Matching & Dealbreaker Filter</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Search benchmark jobs using hybrid BM25 + dense retrieval. Requirements are matched strictly against candidate evidence.
+      </p>
+
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+        <input type="text" id="jobSearchQuery" placeholder="Search jobs (e.g. Machine Learning Engineer, Search Ranking)..." value="Machine Learning Engineer" style="margin: 0;">
+        <select id="searchMethodSelect" style="width: 140px; margin: 0;">
+          <option value="bm25">BM25</option>
+          <option value="dense">Dense (BGE)</option>
+          <option value="hybrid">Hybrid (RRF)</option>
+        </select>
+        <button class="btn" id="searchJobsBtn">Search</button>
+      </div>
+
+      <div id="jobsList"></div>
+
+      <!-- Selected Job Match Breakdown -->
+      <div id="matchBreakdownContainer" class="card" style="display: none; background: #090d16; margin-top: 1.5rem;">
+        <h3>Evidence-Grounded Skill Breakdown</h3>
+        <p id="matchSummary" style="margin-bottom: 1rem;"></p>
+        <div class="grid-2">
+          <div>
+            <h4>Required Skills</h4>
+            <div id="reqSkillsList"></div>
+          </div>
+          <div>
+            <h4>Preferred Skills</h4>
+            <div id="prefSkillsList"></div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem;" id="dealbreakerStatus"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: Propose Edits & Match Explanations -->
+  <section id="tab-tailor" class="tab-pane">
+    <div class="card">
+      <h2>3. Generation Layer (Untrusted Proposals)</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Select demonstration scenario. The generator suggests text, but it is treated as strictly unverified until validated by the independent verification layer.
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <label>Target Job:</label>
+          <select id="proposalJobSelect"></select>
+
+          <label>Proposal Type:</label>
+          <select id="proposalTypeSelect">
+            <option value="resume_bullet_suggestion">Resume Bullet Suggestion</option>
+            <option value="job_match_explanation">Job-Fit Explanation</option>
+          </select>
+
+          <label>Demonstration Mode:</label>
+          <select id="proposalModeSelect">
+            <option value="faithful">1. Faithful (Truthful edit: 18% relevance boost)</option>
+            <option value="fabricated_metric">2. Fabricated Metric (Inflated: 40% vs documented 18%)</option>
+            <option value="invented_skill">3. Invented Skill (Rust programming - absent from skills)</option>
+            <option value="ambiguous_claim">4. Ambiguous Fact (Unstated degree from Berkeley)</option>
+          </select>
+
+          <label>Generator Provider:</label>
+          <select id="proposalProviderSelect">
+            <option value="mock">Deterministic Mock Generator (Safe / Zero-Cost)</option>
+            <option value="groq">Groq Cloud (Llama-3.1-8b-instant, if configured)</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Original Resume Bullet / Context:</label>
+          <textarea id="targetBulletInput">Designed search ranking models improving relevance by 18%.</textarea>
+          
+          <button class="btn btn-success" id="generateProposalBtn" style="width: 100%; padding: 0.8rem; font-size: 1rem; margin-top: 1rem;">
+            Generate & Verify Proposal →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: Claim Verification & Human Approval -->
+  <section id="tab-verify" class="tab-pane">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2>4. Independent Claim Verification & Approval Screen</h2>
+        <div id="proposalStatusBadge"></div>
+      </div>
+
+      <!-- Side-by-Side Diff -->
+      <h3>Proposal Comparison (Original vs Proposed)</h3>
+      <div class="diff-container">
+        <div>
+          <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.3rem;">ORIGINAL DOCUMENTED TEXT</div>
+          <div id="diffOriginalBox" class="diff-box"></div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.3rem;">PROPOSED GENERATED TEXT</div>
+          <div id="diffProposedBox" class="diff-box"></div>
+        </div>
+      </div>
+
+      <!-- Atomic Claims & Verification Evidence -->
+      <h3 style="margin-top: 1.5rem;">Atomic Claims & Grounded Resume Evidence</h3>
+      <div id="claimsList"></div>
+
+      <!-- Manual Edit & Approval Controls -->
+      <div class="card" style="background: #090d16; margin-top: 1.5rem;">
+        <h3>Human In The Loop Approval Action</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">
+          Candidates must explicitly review and accept or reject any proposed modification. You can also edit the text directly and re-verify before accepting.
+        </p>
+
+        <label>Candidate Editable Text:</label>
+        <textarea id="candidateEditableText"></textarea>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn btn-secondary" id="reverifyEditBtn">Re-Verify Manual Edit</button>
+          <button class="btn btn-success" id="approveProposalBtn">Approve & Persist</button>
+          <button class="btn btn-danger" id="rejectProposalBtn">Reject Proposal</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 5: Approval Audit Trail -->
+  <section id="tab-audit" class="tab-pane">
+    <div class="card">
+      <h2>5. Decision Audit History</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+        Immutable audit record of all human candidate decisions (approved, rejected, or manually edited).
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Proposal ID</th>
+            <th>Decision</th>
+            <th>Final Approved Text</th>
+            <th>Candidate Notes</th>
+          </tr>
+        </thead>
+        <tbody id="auditTableBody">
+          <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No decisions recorded yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

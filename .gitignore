@@ -1,0 +1,47 @@
+# Git ignore for NeverInvent
+.env
+*.db
+*.sqlite3
+data/neverinvent.db
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+Thumbs.db
+
+# Private internal documents & plans (do not commit to public repo)
+INTERVIEW_PREPARATION.md
+IMPLEMENTATION_STATUS.md
+PROJECT_PLAN.md
+RESEARCH_PLAN.md
+
+# Screenshots
+screenshots/*.png
+
+# Model cache (sentence-transformers downloads)
+# Keep the cache dir but not its contents in source control
+# (models are re-downloaded on first run)
+
+# Evaluation reports (generated JSON/txt outputs, keep markdown reports)
+neverinvent/evaluation/reports/*.json
+neverinvent/evaluation/reports/*.txt
+evaluation/reports/*.json
+evaluation/reports/*.txt
+
+# Test artifacts
+tests/fixtures/temp/
+
+# Scratch files
+test_st.py
+test_st2.py
+test_st2.log
+test_notf.py
+test_patch.py
+trace_st.py

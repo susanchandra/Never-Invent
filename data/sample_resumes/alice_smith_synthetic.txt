@@ -1,0 +1,20 @@
+Alice Smith
+alice.smith@example.com | (555) 123-4567
+
+Skills
+Python, PyTorch, Kubernetes, AWS, Docker, Spark
+
+Work Experience
+Google - Senior Machine Learning Engineer
+Jan 2021 - Present
+- Designed search ranking models improving relevance by 18%.
+- Scaled inference service handling 500ms requests.
+
+Meta - Machine Learning Engineer
+Jan 2019 - Dec 2020
+- Built data processing pipelines using Python and Spark.
+
+Education
+Stanford University
+B.S. in Computer Science
+2015 - 2019

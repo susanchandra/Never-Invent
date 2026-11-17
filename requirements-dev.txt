@@ -1,0 +1,7 @@
+# NeverInvent — Development / Test Dependencies
+# Install after requirements.txt
+pytest==9.0.2
+black==25.11.0
+mypy==1.19.0
+ruff==0.11.0
+# pytest-asyncio and pytest-cov deferred to Phase 3/4 (not needed for Phase 1)
